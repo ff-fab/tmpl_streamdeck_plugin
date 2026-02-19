@@ -1,6 +1,9 @@
 # Files to exclude when packaging the plugin with `streamdeck pack`.
+
 # Follows .gitignore syntax.
+
 # https://docs.elgato.com/streamdeck/cli/commands/pack#description
 
 # Logs are generated at runtime — never distribute them.
+
 logs/

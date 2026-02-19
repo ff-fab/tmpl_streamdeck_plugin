@@ -1,23 +1,23 @@
 {
-	// VS Code launch configurations for debugging Stream Deck plugins.
-	//
-	// The plugin's Node.js process exposes a debug port when Nodejs.Debug is
-	// set to "enabled" in the manifest.  Attach to it with the config below.
-	//
-	// Steps:
-	//   1. Run `npm run watch` in the terminal.
-	//   2. Press F5 (or use the Run & Debug panel) to attach.
-	//   3. Set breakpoints in your TypeScript source files.
-	//
-	// More info: https://docs.elgato.com/streamdeck/sdk/introduction/your-first-changes#debugging
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Attach to Stream Deck Plugin",
-			"type": "node",
-			"request": "attach",
-			"processId": "${command:PickProcess}",
-			"skipFiles": ["<node_internals>/**"]
-		}
-	]
+  // VS Code launch configurations for debugging Stream Deck plugins.
+  //
+  // The plugin's Node.js process exposes a debug port when Nodejs.Debug is
+  // set to "enabled" in the manifest.  Attach to it with the config below.
+  //
+  // Steps:
+  //   1. Run `npm run watch` in the terminal.
+  //   2. Press F5 (or use the Run & Debug panel) to attach.
+  //   3. Set breakpoints in your TypeScript source files.
+  //
+  // More info: https://docs.elgato.com/streamdeck/sdk/introduction/your-first-changes#debugging
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Stream Deck Plugin",
+      "type": "node",
+      "request": "attach",
+      "processId": "${command:PickProcess}",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
 }

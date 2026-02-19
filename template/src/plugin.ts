@@ -1,6 +1,6 @@
-import streamDeck from "@elgato/streamdeck";
+import streamDeck from '@elgato/streamdeck';
 
-import { Counter } from "./actions/counter";
+import { Counter } from './actions/counter';
 
 // Register all actions before connecting.
 // https://docs.elgato.com/streamdeck/sdk/guides/actions
