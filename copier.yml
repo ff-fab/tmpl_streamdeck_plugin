@@ -1,0 +1,85 @@
+_min_copier_version: '9.11.3'
+_subdirectory: 'template'
+_message_before_copy: |
+  Use a modern Python runtime when invoking Copier (for example: `uvx --python 3.14 copier copy . <target>`).
+  Older Python runtimes can force older Copier/questionary combinations that crash in interactive prompts.
+
+project_name:
+  type: str
+  help: The name of the project.
+repo_name:
+  type: str
+  help: The name of the GitHub repository (without owner/organization).
+  default: "{{ project_name|lower|replace(' ', '-') }}"
+gh_token:
+  type: str
+  help: Optional GitHub token for local development integrations.
+  default: ''
+  secret: true
+context7_api_key:
+  type: str
+  help: Optional Context7 API key for local development integrations.
+  default: ''
+  secret: true
+description:
+  type: str
+  help: A short description of the project.
+license:
+  type: str
+  choices: ['MIT', 'None']
+  help: The software license to use.
+  default: 'MIT'
+codecov:
+  type: bool
+  help: Whether to include Codecov integration for coverage reporting.
+  default: "{{ license != 'None' }}"
+  when: "{{ license != 'None' }}"
+coverage_threshold:
+  type: int
+  help: Minimum line coverage percentage to pass the quality gate (0 to disable).
+  default: 80
+robot_framework:
+  type: bool
+  help: Whether to include Robot Framework for integration testing.
+  default: false
+docs_style:
+  type: str
+  choices: ['diataxis', 'dita', 'user-journey', 'architecture', 'flat']
+  help: The documentation style.
+  default: 'dita'
+release_please:
+  type: bool
+  help: Whether to include Release Please for automated releases and SemVer tagging.
+  default: true
+init_git_on_copy:
+  type: bool
+  help: Whether to initialize a Git repository right after scaffolding.
+  default: true
+
+_tasks:
+  - command:
+      - '{{ _copier_python }}'
+      - -c
+      - |
+        import subprocess
+        import sys
+
+        check = subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        if check.returncode == 0:
+            raise SystemExit(0)
+
+        # Try -b first (Git ≥ 2.28), fall back for older versions
+        init = subprocess.run(
+            ["git", "init", "-b", "main"],
+            stderr=subprocess.DEVNULL,
+        )
+        if init.returncode != 0:
+            init = subprocess.run(["git", "init"])
+            if init.returncode == 0:
+                subprocess.run(["git", "checkout", "-b", "main"])
+        raise SystemExit(init.returncode)
+    when: "{{ init_git_on_copy and _copier_operation == 'copy' }}"

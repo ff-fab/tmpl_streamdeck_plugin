@@ -1,0 +1,6 @@
+{
+  "venv": ".venv",
+  "pythonVersion": "3.14",
+  "reportMissingImports": "none",
+  "ignore": ["{{project_name}}/**/*.py.jinja"]
+}
