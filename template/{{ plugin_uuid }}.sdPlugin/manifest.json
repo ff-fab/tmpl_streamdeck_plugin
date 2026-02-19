@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+	"UUID": "{{ plugin_uuid }}",
+	"Name": "{{ project_name }}",
+	"Version": "0.1.0.0",
+	"Author": "{{ author }}",
+	"Description": "{{ description }}",
+	"Icon": "imgs/plugin/marketplace",
+	"Category": "{{ project_name }}",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"SDKVersion": {{ sdk_version }},
+	"Software": {
+		"MinimumVersion": "6.9"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "10.15"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "{{ node_version }}",
+		"Debug": "enabled"
+	},
+	"Actions": [
+		{
+			"Name": "Counter",
+			"UUID": "{{ plugin_uuid }}.counter",
+			"Icon": "imgs/actions/counter/icon",
+			"Tooltip": "Displays a count that increments on each key press.",
+			"PropertyInspectorPath": "ui/counter.html",
+			"Controllers": ["Keypad"],
+			"States": [
+				{
+					"Image": "imgs/actions/counter/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		}
+	]
+}

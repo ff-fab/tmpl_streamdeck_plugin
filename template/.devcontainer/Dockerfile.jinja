@@ -1,0 +1,12 @@
+# {{ project_name }} — Stream Deck plugin development container
+# Node.js 22 LTS + Stream Deck CLI + common dev tools
+
+FROM mcr.microsoft.com/devcontainers/javascript-node:22
+
+# Install Stream Deck CLI globally so `streamdeck` is on the PATH
+# https://docs.elgato.com/streamdeck/cli/intro
+RUN npm install -g @elgato/cli \
+    && streamdeck --version
+
+# Verify installations
+RUN node --version && npm --version

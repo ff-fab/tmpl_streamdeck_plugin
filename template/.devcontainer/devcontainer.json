@@ -1,22 +1,43 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+// Stream Deck Plugin Development Container
+// https://docs.elgato.com/streamdeck/sdk/introduction/getting-started/
 {
-	"name": "Node.js",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm"
+  "name": "{{ project_name }}",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+  // Install npm dependencies after container creation
+  "postCreateCommand": "npm install",
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+  // Forward the property-inspector debug port (remote debugger)
+  "forwardPorts": [23654],
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "yarn install",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Linting & formatting
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        // TypeScript
+        "ms-vscode.vscode-typescript-next"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "eslint.enable": true,
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "files.associations": {
+          "manifest.json": "json"
+        },
+        "files.exclude": {
+          "**/node_modules": true,
+          "**/.git": true,
+          "{{ plugin_uuid }}.sdPlugin/bin": true,
+          "{{ plugin_uuid }}.sdPlugin/logs": true
+        }
+      }
+    }
+  }
 }

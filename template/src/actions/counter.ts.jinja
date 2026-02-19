@@ -1,0 +1,53 @@
+import streamDeck, { action, type KeyDownEvent, SingletonAction, type WillAppearEvent } from "@elgato/streamdeck";
+
+/**
+ * Settings persisted with each Counter action instance.
+ */
+type CounterSettings = {
+	/** Current count value. */
+	count: number;
+	/** Amount to increment by on each press (default: 1). */
+	incrementBy?: number;
+	/** Reset the counter when it reaches this value (0 = never). */
+	resetAt?: number;
+};
+
+/**
+ * A simple counter action that increments a count on each key press.
+ *
+ * This is the example action scaffolded by the template — replace or extend it
+ * with your own plugin logic.
+ *
+ * @see https://docs.elgato.com/streamdeck/sdk/guides/actions
+ */
+@action({ UUID: "{{ plugin_uuid }}.counter" })
+export class Counter extends SingletonAction<CounterSettings> {
+	/**
+	 * Called when the action appears on the Stream Deck canvas.
+	 * Displays the current count stored in settings.
+	 */
+	override onWillAppear(ev: WillAppearEvent<CounterSettings>): void | Promise<void> {
+		return ev.action.setTitle(`${ev.payload.settings.count ?? 0}`);
+	}
+
+	/**
+	 * Called when the user presses a Stream Deck key (or pedal / G-key).
+	 * Increments the count and updates the title.
+	 */
+	override async onKeyDown(ev: KeyDownEvent<CounterSettings>): Promise<void> {
+		const { incrementBy = 1, resetAt = 0 } = ev.payload.settings;
+		let count = ev.payload.settings.count ?? 0;
+
+		count += incrementBy;
+
+		// Reset if a ceiling is configured and reached.
+		if (resetAt > 0 && count >= resetAt) {
+			count = 0;
+		}
+
+		await ev.action.setSettings({ ...ev.payload.settings, count });
+		await ev.action.setTitle(`${count}`);
+
+		streamDeck.logger.info(`Counter pressed — new value: ${count}`);
+	}
+}

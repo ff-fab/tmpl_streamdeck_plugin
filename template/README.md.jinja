@@ -1,0 +1,127 @@
+# {{ project_name }}
+
+{{ description }}
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) v20 or higher
+- [Stream Deck](https://www.elgato.com/s/downloads?product=Stream%20Deck) v6.9 or higher
+- A Stream Deck device (or [Stream Deck Mobile](https://www.elgato.com/stream-deck-mobile))
+
+## Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Start developing
+
+```bash
+npm run watch
+```
+
+This watches for changes in `src/` and the manifest, rebuilds automatically,
+and restarts the plugin in Stream Deck.
+
+### 3. Open Stream Deck
+
+Your plugin should appear in the Stream Deck actions list.  Drag the
+**Counter** action onto a key to try it out.
+
+> **Tip:** If your plugin doesn't show up, restart the Stream Deck app. This
+> can happen after a fresh install or update.
+
+## Project Structure
+
+```
+.
+├── {{ plugin_uuid }}.sdPlugin/   # Compiled plugin (distributed to Stream Deck)
+│   ├── bin/                       # Rollup build output
+│   ├── imgs/                      # Icons & images
+│   │   ├── actions/counter/       # Counter action icons
+│   │   └── plugin/                # Plugin-level icons
+│   ├── ui/                        # Property inspectors (HTML)
+│   │   └── counter.html
+│   ├── manifest.json              # Plugin manifest (metadata + actions)
+│   └── .sdignore                  # Files excluded from packaging
+├── src/                           # TypeScript source
+│   ├── actions/
+│   │   └── counter.ts             # Example counter action
+│   └── plugin.ts                  # Entry point — registers actions
+├── package.json
+├── rollup.config.mjs              # Bundler configuration
+├── tsconfig.json                  # TypeScript configuration
+└── eslint.config.mjs              # Linter configuration
+```
+
+## Available Scripts
+
+| Script            | Description                                              |
+| ----------------- | -------------------------------------------------------- |
+| `npm run build`   | Production build (minified, no source maps)              |
+| `npm run watch`   | Dev build with hot-reload and automatic plugin restart   |
+| `npm run lint`    | Run ESLint                                               |
+| `npm run format`  | Check Prettier formatting                                |
+| `npm run pack`    | Package plugin into a `.streamDeckPlugin` installer file |
+
+## Adding a New Action
+
+1. Create a new file in `src/actions/` extending `SingletonAction`.
+2. Add the action's metadata to `manifest.json` under `Actions`.
+3. Register the action in `src/plugin.ts` before `streamDeck.connect()`.
+4. Optionally create a property inspector HTML in `{{ plugin_uuid }}.sdPlugin/ui/`.
+
+See [Actions Guide](https://docs.elgato.com/streamdeck/sdk/guides/actions) for
+details.
+
+## Plugin Icons
+
+Replace the placeholder `.gitkeep` files in the `imgs/` directories with your
+actual icons:
+
+| Path                            | Size          | Purpose                       |
+| ------------------------------- | ------------- | ----------------------------- |
+| `imgs/plugin/marketplace`       | 288 × 288 px  | Marketplace listing           |
+| `imgs/plugin/category-icon`     | 28 × 28 px    | Category in actions list      |
+| `imgs/actions/counter/icon`     | 20 × 20 px    | Action icon in actions list   |
+| `imgs/actions/counter/key`      | 72 × 72 px    | Default key image             |
+
+> File extensions must be **omitted** for `Icon`, `CategoryIcon`, and `Image`
+> paths in `manifest.json`. Stream Deck resolves `@1x` / `@2x` variants
+> automatically.
+
+## Debugging
+
+1. Start `npm run watch`.
+2. In VS Code press **F5** → select *Attach to Stream Deck Plugin*.
+3. Choose the `node20` (or `node24`) process.
+
+Property inspector debugging is available at <http://localhost:23654/> when
+developer mode is enabled (`streamdeck dev`).
+
+## Distribution
+
+```bash
+npm run pack
+```
+
+This creates a `.streamDeckPlugin` file you can distribute directly or upload to
+[Maker Console](https://maker.elgato.com/) for Marketplace publication.
+
+See [Distribution Guide](https://docs.elgato.com/streamdeck/sdk/introduction/distribution)
+for more details.
+
+## Resources
+
+- [Stream Deck SDK Documentation](https://docs.elgato.com/streamdeck/sdk/introduction/getting-started/)
+- [Stream Deck CLI](https://docs.elgato.com/streamdeck/cli/intro)
+- [Manifest Reference](https://docs.elgato.com/streamdeck/sdk/references/manifest)
+- [Property Inspector UI Library](https://sdpi-components.dev/)
+- [Marketplace Makers Discord](https://discord.gg/GehBUcu627)
+{% if license == 'MIT' %}
+## License
+
+[MIT](LICENSE)
+{% endif %}

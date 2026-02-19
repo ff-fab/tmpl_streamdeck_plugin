@@ -1,0 +1,26 @@
+# EditorConfig — consistent coding style across editors
+# https://editorconfig.org
+# Matches Elgato's Prettier configuration:
+# https://docs.elgato.com/streamdeck/sdk/style-guide/linting
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+max_line_length = 120
+trim_trailing_whitespace = true
+
+[*.{json,jsonc}]
+indent_style = space
+
+[*.md]
+indent_style = space
+trim_trailing_whitespace = false
+
+[*.{yaml,yml}]
+indent_size = 2
+indent_style = space

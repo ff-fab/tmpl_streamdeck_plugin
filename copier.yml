@@ -1,60 +1,84 @@
 _min_copier_version: '9.11.3'
 _subdirectory: 'template'
 _message_before_copy: |
-  Use a modern Python runtime when invoking Copier (for example: `uvx --python 3.14 copier copy . <target>`).
-  Older Python runtimes can force older Copier/questionary combinations that crash in interactive prompts.
+  This template scaffolds a Stream Deck plugin development environment.
+  You'll need Node.js 20+ and a Stream Deck device (or Stream Deck Mobile) for testing.
+  Learn more: https://docs.elgato.com/streamdeck/sdk/introduction/getting-started/
+
+# ── Plugin identity ──────────────────────────────────────────────────────────
 
 project_name:
   type: str
-  help: The name of the project.
+  help: Human-readable name of your Stream Deck plugin (shown in the Stream Deck app).
+
+plugin_uuid:
+  type: str
+  help: >-
+    Unique plugin identifier in reverse-DNS format (e.g., com.example.my-plugin).
+    Must only contain lowercase alphanumeric characters (a-z, 0-9), hyphens (-),
+    and periods (.).
+  validator: >-
+    {% if ' ' in plugin_uuid or plugin_uuid != plugin_uuid | lower or '.' not in plugin_uuid -%}
+    Must be in reverse-DNS format (e.g., com.example.my-plugin). Use only lowercase letters, numbers, hyphens, and periods.
+    {%- endif %}
+
+author:
+  type: str
+  help: Plugin author name (displayed in Stream Deck and on the Marketplace).
+
+description:
+  type: str
+  help: A short description of the plugin.
+
+# ── Technical options ────────────────────────────────────────────────────────
+
+node_version:
+  type: str
+  choices: ['20', '24']
+  help: >-
+    Node.js version that Stream Deck will use to run the plugin
+    (specified in manifest.json Nodejs.Version).
+  default: '20'
+
+sdk_version:
+  type: int
+  choices: [2, 3]
+  help: >-
+    Stream Deck SDK version. Use 3 to enable DRM protection (requires
+    Stream Deck 6.9+). Use 2 for broader compatibility.
+  default: 3
+
+# ── Repository & tooling ────────────────────────────────────────────────────
+
 repo_name:
   type: str
   help: The name of the GitHub repository (without owner/organization).
-  default: "{{ project_name|lower|replace(' ', '-') }}"
-gh_token:
-  type: str
-  help: Optional GitHub token for local development integrations.
-  default: ''
-  secret: true
-context7_api_key:
-  type: str
-  help: Optional Context7 API key for local development integrations.
-  default: ''
-  secret: true
-description:
-  type: str
-  help: A short description of the project.
+  default: "{{ project_name | lower | replace(' ', '-') }}"
+
 license:
   type: str
   choices: ['MIT', 'None']
   help: The software license to use.
   default: 'MIT'
-codecov:
-  type: bool
-  help: Whether to include Codecov integration for coverage reporting.
-  default: "{{ license != 'None' }}"
-  when: "{{ license != 'None' }}"
-coverage_threshold:
-  type: int
-  help: Minimum line coverage percentage to pass the quality gate (0 to disable).
-  default: 80
-robot_framework:
-  type: bool
-  help: Whether to include Robot Framework for integration testing.
-  default: false
-docs_style:
+
+gh_token:
   type: str
-  choices: ['diataxis', 'dita', 'user-journey', 'architecture', 'flat']
-  help: The documentation style.
-  default: 'dita'
-release_please:
-  type: bool
-  help: Whether to include Release Please for automated releases and SemVer tagging.
-  default: true
+  help: Optional GitHub token for local development integrations.
+  default: ''
+  secret: true
+
+context7_api_key:
+  type: str
+  help: Optional Context7 API key for local development integrations.
+  default: ''
+  secret: true
+
 init_git_on_copy:
   type: bool
   help: Whether to initialize a Git repository right after scaffolding.
   default: true
+
+# ── Post-copy tasks ─────────────────────────────────────────────────────────
 
 _tasks:
   - command:
