@@ -1,8 +1,9 @@
 _min_copier_version: '9.11.3'
 _subdirectory: 'template'
+_jinja_extensions:
+  - jinja2_time.TimeExtension
 _message_before_copy: |
   This template scaffolds a Stream Deck plugin development environment.
-  You'll need Node.js 20+ and a Stream Deck device (or Stream Deck Mobile) for testing.
   Learn more: https://docs.elgato.com/streamdeck/sdk/introduction/getting-started/
 
 # ── Plugin identity ──────────────────────────────────────────────────────────
