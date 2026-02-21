@@ -6,9 +6,6 @@
     "dockerfile": "Dockerfile"
   },
 
-  // Install npm dependencies after container creation
-  "postCreateCommand": "npm install",
-
   // Forward the property-inspector debug port (remote debugger)
   "forwardPorts": [23654],
 
@@ -20,7 +17,14 @@
         "esbenp.prettier-vscode",
         "editorconfig.editorconfig",
         // TypeScript
-        "ms-vscode.vscode-typescript-next"
+        "ms-vscode.vscode-typescript-next",
+        // GitHub Copilot
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        // Others
+        "vivaxy.vscode-conventional-commits",
+        "task.vscode-task",
+        "planet57.vscode-beads"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -39,5 +43,10 @@
         }
       }
     }
-  }
+  },
+
+  "postCreateCommand": "/workspace/.devcontainer/post-create.sh",
+  "postStartCommand": "/workspace/.devcontainer/post-start.sh",
+
+  "remoteUser": "vscode"
 }
