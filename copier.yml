@@ -27,6 +27,10 @@ author:
   type: str
   help: Plugin author name (displayed in Stream Deck and on the Marketplace).
 
+author_email:
+  type: str
+  help: Plugin author email (for git and GitHub).
+
 description:
   type: str
   help: A short description of the plugin.
@@ -106,5 +110,10 @@ _tasks:
             init = subprocess.run(["git", "init"])
             if init.returncode == 0:
                 subprocess.run(["git", "checkout", "-b", "main"])
+
+        if init.returncode == 0:
+            subprocess.run(["git", "config", "user.name", "{{ author }}"])
+            subprocess.run(["git", "config", "user.email", "{{ author_email }}"])
+
         raise SystemExit(init.returncode)
     when: "{{ init_git_on_copy and _copier_operation == 'copy' }}"

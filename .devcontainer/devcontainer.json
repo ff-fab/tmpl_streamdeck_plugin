@@ -127,6 +127,9 @@
         // Show gitignored files like htmlcov/ in explorer
         "explorer.excludeGitIgnore": false,
 
+        // Window title
+        "window.title": "tmpl_streamdeck_plugin [devcontainer]",
+
         // Window theming – Stream Deck inspired (black on white)
         "workbench.colorCustomizations": {
           // Title bar: white background, black text
