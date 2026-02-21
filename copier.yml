@@ -30,6 +30,10 @@ author:
 author_email:
   type: str
   help: Plugin author email (for git and GitHub).
+  validator: >-
+    {% if '@' not in author_email or '.' not in author_email -%}
+    Must be a valid email address containing '@' and '.'.
+    {%- endif %}
 
 description:
   type: str
